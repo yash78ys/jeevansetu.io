@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JEEVANSETU - Rural Emergency Response System</title>
+  <meta name="description" content="JeevanSetu is a rapid rural emergency response platform providing instant SOS alerts, hospital locator, blood donor discovery, and emergency coordination.">
+  
+  <!-- CSS Dependencies -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar-custom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a href="index.html" class="navbar-brand-custom">
+        <div class="brand-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span>JEEVAN<span class="text-danger">SETU</span></span>
+      </a>
+
+      <div class="d-none d-md-flex align-items-center gap-2">
+        <a href="index.html" class="nav-link-custom active"><i class="fa-solid fa-house me-1"></i> Home</a>
+        <a href="sos.html" class="nav-link-custom"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> SOS Dispatch</a>
+        <a href="hospitals.html" class="nav-link-custom"><i class="fa-solid fa-hospital me-1 text-success"></i> Hospitals</a>
+        <a href="donors.html" class="nav-link-custom"><i class="fa-solid fa-droplet me-1 text-danger"></i> Blood Donors</a>
+        <a href="admin.html" class="nav-link-custom"><i class="fa-solid fa-shield-halved me-1 text-info"></i> Dispatcher Admin</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div id="nav-user-info">
+          <a href="user.html" class="nav-link-custom"><i class="fa-solid fa-user me-1"></i> User Portal</a>
+        </div>
+        <a href="sos.html" class="nav-sos-btn"><i class="fa-solid fa-bolt"></i> SOS NOW</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section with SOS Button -->
+  <section class="py-5 position-relative overflow-hidden">
+    <div class="container text-center py-3">
+      <div class="badge bg-danger bg-opacity-20 text-danger border border-danger border-opacity-30 rounded-pill px-3 py-2 mb-3 fw-bold">
+        <i class="fa-solid fa-satellite-dish me-2"></i> 24/7 RURAL EMERGENCY RESPONSE NETWORK
+      </div>
+      
+      <h1 class="display-4 fw-extrabold text-main mb-3">
+        Rapid Emergency Relief for <span class="text-danger">Rural Communities</span>
+      </h1>
+      <p class="lead text-muted mx-auto mb-4" style="max-width: 680px;">
+        Instant GPS Emergency Dispatch, Live Hospital Locator, and Community Blood Donor Network designed to save precious lives when every second counts.
+      </p>
+
+      <!-- Pulsating SOS Panic Button -->
+      <div class="sos-trigger-container my-4">
+        <div class="sos-ripple-1"></div>
+        <div class="sos-ripple-2"></div>
+        <div class="sos-ripple-3"></div>
+        <button id="home-sos-btn" class="sos-big-btn" title="Tap to Trigger Emergency SOS">
+          <i class="fa-solid fa-triangle-exclamation fs-1 mb-1"></i>
+          <span class="sos-btn-text">SOS</span>
+          <span class="sos-btn-sub">PRESS FOR EMERGENCY</span>
+        </button>
+      </div>
+
+      <p class="text-muted small mt-2">
+        <i class="fa-solid fa-location-crosshairs text-info me-1"></i> Tap button above to instantly transmit GPS coordinates to nearest medical teams & emergency responders.
+      </p>
+    </div>
+  </section>
+
+  <!-- Live Metrics Ticker -->
+  <section class="py-4 border-y border-light bg-secondary bg-opacity-40">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-6 col-md-3">
+          <div class="metric-box">
+            <div class="metric-number text-danger">4.8 <small class="fs-6">min</small></div>
+            <div class="metric-label">Avg. Response Time</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-box">
+            <div class="metric-number text-success" id="metric-hospitals-count">24+</div>
+            <div class="metric-label">Mapped Medical Centers</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-box">
+            <div class="metric-number text-info" id="metric-donors-count">150+</div>
+            <div class="metric-label">Active Blood Donors</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-box">
+            <div class="metric-number text-warning">99.4%</div>
+            <div class="metric-label">Signal Reach Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Feature Cards -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h3 fw-bold text-main">Emergency Services & Resources</h2>
+        <p class="text-muted">Instant access to medical infrastructure across rural districts</p>
+      </div>
+
+      <div class="row g-4">
+        <!-- SOS Dispatch -->
+        <div class="col-md-6 col-lg-3">
+          <a href="sos.html" class="d-block h-100">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper icon-red">
+                <i class="fa-solid fa-tower-cell"></i>
+              </div>
+              <h5 class="fw-bold mb-2">SOS Broadcast</h5>
+              <p class="text-muted small mb-3">Send immediate panic alerts with live GPS location to local emergency authorities and family contacts.</p>
+              <span class="text-danger fw-bold small mt-auto">Trigger SOS <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Hospital Finder -->
+        <div class="col-md-6 col-lg-3">
+          <a href="hospitals.html" class="d-block h-100">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper icon-emerald">
+                <i class="fa-solid fa-hospital-user"></i>
+              </div>
+              <h5 class="fw-bold mb-2">Nearest Hospitals</h5>
+              <p class="text-muted small mb-3">Locate medical centers, primary health centers (PHC), trauma units, and calculate fastest ambulance routes.</p>
+              <span class="text-success fw-bold small mt-auto">Find Hospitals <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Blood Donor Directory -->
+        <div class="col-md-6 col-lg-3">
+          <a href="donors.html" class="d-block h-100">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper icon-amber">
+                <i class="fa-solid fa-hand-holding-medical"></i>
+              </div>
+              <h5 class="fw-bold mb-2">Blood Donors</h5>
+              <p class="text-muted small mb-3">Search verified blood donors by blood group (A+, O-, B+, etc.) and village. Direct tap-to-call support.</p>
+              <span class="text-warning fw-bold small mt-auto">Search Donors <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </a>
+        </div>
+
+        <!-- User & Emergency Contacts -->
+        <div class="col-md-6 col-lg-3">
+          <a href="user.html" class="d-block h-100">
+            <div class="feature-card">
+              <div class="feature-icon-wrapper icon-cyan">
+                <i class="fa-solid fa-address-book"></i>
+              </div>
+              <h5 class="fw-bold mb-2">Emergency Contacts</h5>
+              <p class="text-muted small mb-3">Manage pre-configured family contacts, medical history, and track emergency dispatch status in real-time.</p>
+              <span class="text-info fw-bold small mt-auto">Manage Profile <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Map Preview Section -->
+  <section class="py-5 bg-secondary bg-opacity-30 border-y border-light">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-5">
+          <div class="badge bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 rounded-pill px-3 py-1 mb-3">
+            <i class="fa-solid fa-map-location-dot me-1"></i> REAL-TIME INFRASTRUCTURE
+          </div>
+          <h2 class="h3 fw-bold text-main mb-3">Live Emergency Resource Mapping</h2>
+          <p class="text-muted mb-4">
+            JeevanSetu leverages Leaflet & OpenStreetMap geolocation technology to map primary healthcare centers, ambulances, and blood bank networks even in remote villages with low bandwidth connectivity.
+          </p>
+          <ul class="list-unstyled d-grid gap-2 mb-4 text-muted small">
+            <li><i class="fa-solid fa-circle-check text-success me-2"></i> GPS auto-detection with high precision pin locator</li>
+            <li><i class="fa-solid fa-circle-check text-success me-2"></i> Instant distance computation in kilometers</li>
+            <li><i class="fa-solid fa-circle-check text-success me-2"></i> One-tap navigation link for drivers & emergency personnel</li>
+          </ul>
+          <a href="hospitals.html" class="btn btn-red"><i class="fa-solid fa-map me-2"></i> Explore Full Interactive Map</a>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="map-wrapper">
+            <div id="leaflet-map"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How JeevanSetu Works -->
+  <section class="py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h3 fw-bold text-main">How JeevanSetu Protects Lives</h2>
+        <p class="text-muted">4 simple steps to instant emergency support</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-3 text-center">
+          <div class="brand-icon mx-auto mb-3" style="width:60px; height:60px; font-size:1.6rem; background:rgba(239,68,68,0.2); color:#ef4444; border:1px solid rgba(239,68,68,0.4);">
+            1
+          </div>
+          <h5 class="fw-bold text-main">Press SOS</h5>
+          <p class="text-muted small">User presses the high-visibility SOS panic button on any smartphone.</p>
+        </div>
+
+        <div class="col-md-3 text-center">
+          <div class="brand-icon mx-auto mb-3" style="width:60px; height:60px; font-size:1.6rem; background:rgba(6,182,212,0.2); color:#06b6d4; border:1px solid rgba(6,182,212,0.4);">
+            2
+          </div>
+          <h5 class="fw-bold text-main">GPS Geolocation</h5>
+          <p class="text-muted small">System captures exact coordinates (latitude & longitude) automatically.</p>
+        </div>
+
+        <div class="col-md-3 text-center">
+          <div class="brand-icon mx-auto mb-3" style="width:60px; height:60px; font-size:1.6rem; background:rgba(245,158,11,0.2); color:#f59e0b; border:1px solid rgba(245,158,11,0.4);">
+            3
+          </div>
+          <h5 class="fw-bold text-main">Dispatch & Alert</h5>
+          <p class="text-muted small">Emergency control center and closest hospital team receive immediate notification.</p>
+        </div>
+
+        <div class="col-md-3 text-center">
+          <div class="brand-icon mx-auto mb-3" style="width:60px; height:60px; font-size:1.6rem; background:rgba(16,185,129,0.2); color:#10b981; border:1px solid rgba(16,185,129,0.4);">
+            4
+          </div>
+          <h5 class="fw-bold text-main">Medical Arrival</h5>
+          <p class="text-muted small">Ambulance and medical responders arrive at the designated location.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Emergency Helplines Direct Dial Drawer -->
+  <section class="py-4 bg-danger bg-opacity-10 border-y border-danger border-opacity-30">
+    <div class="container text-center">
+      <h4 class="fw-bold text-main mb-3"><i class="fa-solid fa-phone-volume text-danger me-2"></i> National Emergency Direct Helplines</h4>
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <a href="tel:108" class="btn btn-outline-light btn-sm px-3 py-2"><i class="fa-solid fa-ambulance text-danger me-1"></i> Ambulance: <strong>108</strong></a>
+        <a href="tel:112" class="btn btn-outline-light btn-sm px-3 py-2"><i class="fa-solid fa-shield-halved text-info me-1"></i> National Emergency: <strong>112</strong></a>
+        <a href="tel:1091" class="btn btn-outline-light btn-sm px-3 py-2"><i class="fa-solid fa-user-nurse text-warning me-1"></i> Women Helpline: <strong>1091</strong></a>
+        <a href="tel:1075" class="btn btn-outline-light btn-sm px-3 py-2"><i class="fa-solid fa-hospital text-success me-1"></i> Health Helpline: <strong>1075</strong></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+        <div class="brand-icon" style="width:32px; height:32px; font-size:0.9rem;">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span class="fw-bold text-main">JEEVANSETU</span>
+      </div>
+      <p class="text-muted small mb-2">Empowering rural communities with rapid emergency healthcare response, hospital search, and blood donor coordination.</p>
+      <p class="text-muted small">© 2026 JEEVANSETU. All Rights Reserved. Built with Core PHP & Leaflet OpenStreetMap.</p>
+    </div>
+  </footer>
+
+  <!-- Mobile Sticky Bottom SOS Bar -->
+  <div class="mobile-sos-bar">
+    <a href="index.html" class="text-muted small text-center"><i class="fa-solid fa-house d-block"></i>Home</a>
+    <a href="hospitals.html" class="text-muted small text-center"><i class="fa-solid fa-hospital d-block"></i>Hospitals</a>
+    <a href="sos.html" class="btn btn-red btn-sm px-3 py-2"><i class="fa-solid fa-bolt me-1"></i> SOS</a>
+    <a href="donors.html" class="text-muted small text-center"><i class="fa-solid fa-droplet d-block"></i>Donors</a>
+    <a href="user.html" class="text-muted small text-center"><i class="fa-solid fa-user d-block"></i>Account</a>
+  </div>
+
+  <!-- JS Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initIndexPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOS Dispatch Portal - JEEVANSETU</title>
+  <meta name="description" content="Send immediate emergency SOS alerts with GPS tracking to nearest hospitals and responders.">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar-custom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a href="index.html" class="navbar-brand-custom">
+        <div class="brand-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span>JEEVAN<span class="text-danger">SETU</span></span>
+      </a>
+
+      <div class="d-none d-md-flex align-items-center gap-2">
+        <a href="index.html" class="nav-link-custom"><i class="fa-solid fa-house me-1"></i> Home</a>
+        <a href="sos.html" class="nav-link-custom active"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> SOS Dispatch</a>
+        <a href="hospitals.html" class="nav-link-custom"><i class="fa-solid fa-hospital me-1 text-success"></i> Hospitals</a>
+        <a href="donors.html" class="nav-link-custom"><i class="fa-solid fa-droplet me-1 text-danger"></i> Blood Donors</a>
+        <a href="admin.html" class="nav-link-custom"><i class="fa-solid fa-shield-halved me-1 text-info"></i> Dispatcher Admin</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div id="nav-user-info">
+          <a href="user.html" class="nav-link-custom"><i class="fa-solid fa-user me-1"></i> User Portal</a>
+        </div>
+        <a href="sos.html" class="nav-sos-btn"><i class="fa-solid fa-bolt"></i> SOS NOW</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SOS Emergency Main Container -->
+  <div class="container py-4">
+    <div class="row g-4">
+      
+      <!-- Left Column: SOS Trigger & Location Map -->
+      <div class="col-lg-7">
+        <div class="glass-panel glass-panel-red p-4">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <div class="brand-icon bg-danger text-white">
+                <i class="fa-solid fa-tower-cell fs-4"></i>
+              </div>
+              <div>
+                <h3 class="h4 fw-extrabold text-main mb-0">Emergency SOS Broadcast</h3>
+                <span class="text-muted small">Transmits high-priority alert to medical control room</span>
+              </div>
+            </div>
+            <span class="badge bg-danger text-white px-3 py-2 animate-pulse"><i class="fa-solid fa-circle-dot me-1"></i> LIVE DISPATCH</span>
+          </div>
+
+          <!-- GPS Location Map -->
+          <div class="map-wrapper mb-3" style="height:280px;">
+            <div id="sos-map" style="height:100%;"></div>
+          </div>
+
+          <div id="location-status" class="badge bg-warning text-dark mb-3">
+            <i class="fa-solid fa-spinner fa-spin me-1"></i> Detecting current GPS coordinates...
+          </div>
+
+          <!-- SOS Broadcast Form -->
+          <form id="sos-form">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label text-muted small fw-semibold">Emergency Nature / Category</label>
+                <select id="sos-type" class="form-select form-select-dark" required>
+                  <option value="Medical Emergency">Medical Emergency (Heart Attack / Stroke / Unconscious)</option>
+                  <option value="Accident / Trauma">Road Accident / Severe Physical Injury</option>
+                  <option value="Urgent Blood Needed">Urgent Blood Requirement</option>
+                  <option value="Maternal / Delivery Emergency">Pregnancy / Delivery Emergency</option>
+                  <option value="Other Crisis">Other Medical Crisis</option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label text-muted small fw-semibold">GPS Latitude</label>
+                <input type="text" id="sos-lat" class="form-control form-control-dark" placeholder="28.6139" required readonly>
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label text-muted small fw-semibold">GPS Longitude</label>
+                <input type="text" id="sos-lng" class="form-control form-control-dark" placeholder="77.2090" required readonly>
+              </div>
+
+              <div class="col-12">
+                <label class="form-label text-muted small fw-semibold">Landmark / Additional Notes (Optional)</label>
+                <input type="text" id="sos-notes" class="form-control form-control-dark" placeholder="e.g. Near Panchayat Bhavan, House No. 42, Main Road">
+              </div>
+
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-red w-100 py-3 fs-5 fw-bold">
+                  <i class="fa-solid fa-tower-cell me-2"></i> DISPATCH EMERGENCY SOS NOW
+                </button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+      <!-- Right Column: Active Emergency Tracking & Helpline Numbers -->
+      <div class="col-lg-5">
+        
+        <!-- Emergency Helpline Card -->
+        <div class="glass-panel p-4 mb-4">
+          <h5 class="fw-bold text-main mb-3"><i class="fa-solid fa-phone-volume text-danger me-2"></i> Direct Emergency Quick Dial</h5>
+          <div class="d-grid gap-2">
+            <a href="tel:108" class="btn btn-outline-danger d-flex justify-content-between align-items-center py-2 px-3">
+              <span><i class="fa-solid fa-truck-medical me-2"></i> Ambulance Service</span>
+              <strong class="fs-5">108</strong>
+            </a>
+            <a href="tel:112" class="btn btn-outline-info d-flex justify-content-between align-items-center py-2 px-3">
+              <span><i class="fa-solid fa-shield-halved me-2"></i> Police Emergency</span>
+              <strong class="fs-5">112</strong>
+            </a>
+            <a href="tel:1091" class="btn btn-outline-warning d-flex justify-content-between align-items-center py-2 px-3">
+              <span><i class="fa-solid fa-user-nurse me-2"></i> Women Emergency Line</span>
+              <strong class="fs-5">1091</strong>
+            </a>
+          </div>
+        </div>
+
+        <!-- Past / Active Emergency Dispatch Timeline -->
+        <div class="glass-panel p-4">
+          <h5 class="fw-bold text-main mb-3"><i class="fa-solid fa-clock-rotate-left text-warning me-2"></i> Emergency Dispatch History</h5>
+          <div id="sos-history-list">
+            <div class="text-center py-3 text-muted">Loading dispatch logs...</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SOS Confirmation Modal -->
+  <div class="modal fade" id="sosAlertModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-dark">
+        <div class="modal-header modal-header-dark border-0">
+          <h5 class="modal-title text-danger fw-bold"><i class="fa-solid fa-circle-check text-success me-2"></i> Emergency Signal Transmitted</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="brand-icon mx-auto mb-3" style="width:70px; height:70px; font-size:2rem;">
+            <i class="fa-solid fa-tower-cell"></i>
+          </div>
+          <h4 class="text-main fw-bold mb-2">Responders Notified!</h4>
+          <p class="text-muted small mb-3">Your location data has been logged in the JeevanSetu Emergency Central Dispatch console.</p>
+          
+          <div class="p-3 bg-dark rounded border border-light text-start mb-3">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted small">Dispatch Ticket:</span>
+              <strong id="modal-sos-id" class="text-warning">#SOS-501</strong>
+            </div>
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted small">Emergency Type:</span>
+              <strong id="modal-sos-type" class="text-main">Medical Emergency</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted small">GPS Coordinates:</span>
+              <strong id="modal-sos-coords" class="text-info">28.6139, 77.2090</strong>
+            </div>
+          </div>
+
+          <a href="tel:108" class="btn btn-red w-100 py-2 fw-bold"><i class="fa-solid fa-phone me-2"></i> Call 108 Ambulance Immediately</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="text-muted small mb-0">© 2026 JEEVANSETU - Emergency SOS Dispatch Module.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initSOSPage();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Directory & Route Finder - JEEVANSETU</title>
+  <meta name="description" content="Find nearest emergency hospitals, primary health centers (PHC), trauma care units, and emergency contact details.">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar-custom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a href="index.html" class="navbar-brand-custom">
+        <div class="brand-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span>JEEVAN<span class="text-danger">SETU</span></span>
+      </a>
+
+      <div class="d-none d-md-flex align-items-center gap-2">
+        <a href="index.html" class="nav-link-custom"><i class="fa-solid fa-house me-1"></i> Home</a>
+        <a href="sos.html" class="nav-link-custom"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> SOS Dispatch</a>
+        <a href="hospitals.html" class="nav-link-custom active"><i class="fa-solid fa-hospital me-1 text-success"></i> Hospitals</a>
+        <a href="donors.html" class="nav-link-custom"><i class="fa-solid fa-droplet me-1 text-danger"></i> Blood Donors</a>
+        <a href="admin.html" class="nav-link-custom"><i class="fa-solid fa-shield-halved me-1 text-info"></i> Dispatcher Admin</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div id="nav-user-info">
+          <a href="user.html" class="nav-link-custom"><i class="fa-solid fa-user me-1"></i> User Portal</a>
+        </div>
+        <a href="sos.html" class="nav-sos-btn"><i class="fa-solid fa-bolt"></i> SOS NOW</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hospital Locator Container -->
+  <div class="container py-4">
+    
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+      <div>
+        <h2 class="h3 fw-bold text-main mb-1"><i class="fa-solid fa-hospital-user text-success me-2"></i> Emergency Hospital & Health Center Locator</h2>
+        <p class="text-muted small mb-0">Hospitals automatically sorted by nearest distance to your GPS location</p>
+      </div>
+
+      <div class="mt-3 mt-md-0" style="min-width: 280px;">
+        <div class="input-group">
+          <span class="input-group-text bg-dark border-light text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" id="hospital-search" class="form-control form-control-dark" placeholder="Search hospital name or village...">
+        </div>
+      </div>
+    </div>
+
+    <!-- Map View -->
+    <div class="row g-4 mb-4">
+      <div class="col-12">
+        <div class="map-wrapper" style="height:380px;">
+          <div id="hospital-map" style="height:100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hospitals List Grid -->
+    <div class="row">
+      <div class="col-12">
+        <h5 class="fw-bold text-main mb-3"><i class="fa-solid fa-list-ul text-info me-2"></i> Nearest Medical Centers</h5>
+        <div id="hospitals-list">
+          <div class="text-center py-4 text-muted">Loading hospital directory...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="text-muted small mb-0">© 2026 JEEVANSETU - Emergency Hospital Search Module.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initHospitalsPage();
+    });
+  </script>
+</body>
+</html>

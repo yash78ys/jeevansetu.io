@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Control Dispatcher - JEEVANSETU</title>
+  <meta name="description" content="Admin Control Room for monitoring live rural emergency SOS broadcasts, managing medical centers, and dispatching response teams.">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar-custom">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+      <a href="index.html" class="navbar-brand-custom">
+        <div class="brand-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        <span>JEEVAN<span class="text-danger">SETU</span></span>
+      </a>
+
+      <div class="d-none d-md-flex align-items-center gap-2">
+        <a href="index.html" class="nav-link-custom"><i class="fa-solid fa-house me-1"></i> Home</a>
+        <a href="sos.html" class="nav-link-custom"><i class="fa-solid fa-triangle-exclamation me-1 text-danger"></i> SOS Dispatch</a>
+        <a href="hospitals.html" class="nav-link-custom"><i class="fa-solid fa-hospital me-1 text-success"></i> Hospitals</a>
+        <a href="donors.html" class="nav-link-custom"><i class="fa-solid fa-droplet me-1 text-danger"></i> Blood Donors</a>
+        <a href="admin.html" class="nav-link-custom active"><i class="fa-solid fa-shield-halved me-1 text-info"></i> Dispatcher Admin</a>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <div id="nav-user-info">
+          <a href="user.html" class="nav-link-custom"><i class="fa-solid fa-user me-1"></i> User Portal</a>
+        </div>
+        <a href="sos.html" class="nav-sos-btn"><i class="fa-solid fa-bolt"></i> SOS NOW</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Main Container -->
+  <div class="container py-4">
+    
+    <!-- Section 1: Admin Login Card (If unauthenticated) -->
+    <div id="admin-login-sec" class="row justify-content-center my-4">
+      <div class="col-md-5">
+        <div class="glass-panel p-4">
+          <div class="text-center mb-4">
+            <div class="brand-icon mx-auto mb-2" style="width:60px; height:60px; font-size:1.6rem; background:rgba(6,182,212,0.2); color:#06b6d4; border:1px solid rgba(6,182,212,0.4);">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4 class="fw-bold text-main">Emergency Control Authentication</h4>
+            <p class="text-muted small">Restricted access for emergency dispatchers and medical admins</p>
+          </div>
+
+          <form id="admin-login-form">
+            <div class="mb-3">
+              <label class="form-label text-muted small fw-semibold">Admin Username</label>
+              <input type="text" id="admin-username" class="form-control form-control-dark" value="admin" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label text-muted small fw-semibold">Admin Password</label>
+              <input type="password" id="admin-password" class="form-control form-control-dark" value="admin123" required>
+            </div>
+
+            <button type="submit" class="btn btn-red w-100 py-2 fw-bold"><i class="fa-solid fa-key me-2"></i> Authenticate Dispatcher</button>
+            <p class="text-muted small text-center mt-3 mb-0">Demo Credentials: <code>admin</code> / <code>admin123</code></p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Admin Dashboard & Dispatcher Console -->
+    <div id="admin-dashboard-sec" class="d-none">
+      
+      <!-- Metrics Overview Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="glass-panel p-3 text-center">
+            <div class="text-muted small fw-semibold mb-1"><i class="fa-solid fa-users text-primary me-1"></i> Registered Users</div>
+            <div id="metric-total-users" class="metric-number text-main">142</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="glass-panel p-3 text-center">
+            <div class="text-muted small fw-semibold mb-1"><i class="fa-solid fa-hospital text-success me-1"></i> Mapped Hospitals</div>
+            <div id="metric-total-hospitals" class="metric-number text-success">4</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="glass-panel p-3 text-center">
+            <div class="text-muted small fw-semibold mb-1"><i class="fa-solid fa-droplet text-danger me-1"></i> Blood Donors</div>
+            <div id="metric-total-donors" class="metric-number text-danger">5</div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <div class="glass-panel p-3 text-center">
+            <div class="text-muted small fw-semibold mb-1"><i class="fa-solid fa-bell text-warning me-1"></i> Active Pending SOS</div>
+            <div id="metric-pending-sos" class="metric-number text-warning">1</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Toolbar -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-main mb-0"><i class="fa-solid fa-tower-cell text-danger me-2"></i> Live Emergency SOS Dispatch Console</h4>
+        <button class="btn btn-outline-custom btn-sm" data-bs-toggle="modal" data-bs-target="#addHospitalModal">
+          <i class="fa-solid fa-plus me-1 text-success"></i> Add Hospital Facility
+        </button>
+      </div>
+
+      <!-- Emergency Dispatch Table -->
+      <div class="glass-panel p-3 mb-4">
+        <div class="table-responsive">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th>Ticket ID</th>
+                <th>Victim / User Info</th>
+                <th>Emergency Category</th>
+                <th>GPS Location (Lat, Lng)</th>
+                <th>Time Stamp</th>
+                <th>Dispatcher Status Action</th>
+              </tr>
+            </thead>
+            <tbody id="admin-emergencies-tbody">
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">Loading dispatch queue...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Add Hospital Modal -->
+  <div class="modal fade" id="addHospitalModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content modal-content-dark">
+        <div class="modal-header modal-header-dark">
+          <h5 class="modal-title text-main fw-bold"><i class="fa-solid fa-hospital-user text-success me-2"></i> Add Medical Facility</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="add-hospital-form">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label class="form-label text-muted small fw-semibold">Hospital / PHC Name</label>
+              <input type="text" id="hosp-name" class="form-control form-control-dark" placeholder="e.g. District Emergency Health Center" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-muted small fw-semibold">Emergency Phone Number</label>
+              <input type="text" id="hosp-phone" class="form-control form-control-dark" placeholder="+91 9800000000" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-muted small fw-semibold">Full Address / Village</label>
+              <input type="text" id="hosp-address" class="form-control form-control-dark" placeholder="Main Highway, Village Rampur" required>
+            </div>
+            <div class="row g-2">
+              <div class="col-6">
+                <label class="form-label text-muted small fw-semibold">Latitude</label>
+                <input type="text" id="hosp-lat" class="form-control form-control-dark" placeholder="28.6139" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label text-muted small fw-semibold">Longitude</label>
+                <input type="text" id="hosp-lng" class="form-control form-control-dark" placeholder="77.2090" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer modal-footer-dark">
+            <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-red" data-bs-dismiss="modal"><i class="fa-solid fa-check me-1"></i> Save Hospital</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container text-center">
+      <p class="text-muted small mb-0">© 2026 JEEVANSETU - Emergency Dispatch Control Module.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminPage();
+    });
+  </script>
+</body>
+</html>
